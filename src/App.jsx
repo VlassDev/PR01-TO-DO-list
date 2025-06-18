@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
@@ -41,6 +41,27 @@ function App() {
     setTasks(updatedTasks);
   };
 
+  // 🟢 V2
+  // Comprobar si hay lista de tareas en localStorage
+  useEffect(() => {
+    const savedTasksStorage = localStorage.getItem("tasks");
+    if (savedTasksStorage) {
+      const newTasks = JSON.parse(savedTasksStorage);
+      setTasks(newTasks);
+    }
+  }, []);
+
+  // Guardar tarea en localStorage
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  // Eliminar todas las tareas
+  const handleClearTasks = () => {
+    setTasks([]);
+    localStorage.removeItem("tasks");
+  };
+
   return (
     <div>
       <h1>Mi Lista de Tareas</h1>
@@ -54,6 +75,7 @@ function App() {
       <button onClick={handleAddTask}>Agregar</button>
 
       <h2>Lista de tareas</h2>
+      <button onClick={handleClearTasks}>Eliminar tareas</button>
       <ul>
         {tasks.map((tarea) => (
           <li
