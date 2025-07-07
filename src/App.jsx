@@ -63,34 +63,83 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Mi Lista de Tareas</h1>
+    <div className="container">
+      <div className="title-container">
+        <h1>Your To Do</h1>
+        <div className="delete-tasks">
+          {tasks.length !== 0 ? (
+            <span
+              onClick={handleClearTasks}
+              className="material-symbols-outlined"
+            >
+              delete
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
 
-      <input
-        type="text"
-        placeholder="Escriba una tarea"
-        value={task}
-        onChange={handleImputChange}
-      />
-      <button onClick={handleAddTask}>Agregar</button>
+      <div className="input-task-container">
+        <input
+          className="input-task"
+          type="text"
+          placeholder="Agrega nueva tarea"
+          value={task}
+          onChange={handleImputChange}
+        />
+        <button className="btn-add" onClick={handleAddTask}>
+          <span className="material-symbols-outlined">add</span>
+        </button>
+      </div>
 
-      <h2>Lista de tareas</h2>
-      <button onClick={handleClearTasks}>Eliminar tareas</button>
+      <div className="count-tasks">
+        {tasks.length === 0
+          ? "-- No hay tareas --"
+          : `Hay ${
+              tasks.length === 1 ? "1 tarea" : `${tasks.length} tareas totales`
+            }`}
+      </div>
+
       <ul>
         {tasks.map((tarea) => (
-          <li
-            key={tarea.id}
-            style={{
-              textDecoration: tarea.completed ? "line-through" : "none",
-              color: tarea.completed ? "#888" : "#fff",
-            }}
-          >
-            {tarea.text}
-            <button onClick={() => handleDeleteTask(tarea.id)}>❌</button>
-            <button onClick={() => handleCompleteTask(tarea.id)}>
-              {" "}
-              {tarea.completed === false ? "✅" : "⏳"}{" "}
-            </button>
+          <li className="task-card" key={tarea.id}>
+            <div className="container-todo">
+              <div className="container-check">
+                <span
+                  onClick={() => handleCompleteTask(tarea.id)}
+                  className="check"
+                >
+                  {tarea.completed === false ? (
+                    <span class="material-symbols-outlined">
+                      check_box_outline_blank
+                    </span>
+                  ) : (
+                    <span class="material-symbols-outlined filled">
+                      check_box
+                    </span>
+                  )}
+                </span>
+                <span
+                  className="task"
+                  style={{
+                    textDecoration: tarea.completed ? "line-through" : "none",
+                    color: tarea.completed ? "#888" : "#fff",
+                  }}
+                >
+                  {tarea.text}
+                </span>
+              </div>
+
+              <div className="delete">
+                <span
+                  onClick={() => handleDeleteTask(tarea.id)}
+                  class="material-symbols-outlined"
+                >
+                  close
+                </span>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
