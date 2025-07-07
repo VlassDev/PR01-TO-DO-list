@@ -34,7 +34,6 @@ function App() {
 
   // ✅ MARCAR TAREA COMPLETADA
   const handleCompleteTask = (id) => {
-    console.log("Tarea completada", id);
     const updatedTasks = tasks.map((tarea) =>
       tarea.id === id ? { ...tarea, completed: !tarea.completed } : tarea
     );
